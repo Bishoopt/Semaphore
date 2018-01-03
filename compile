@@ -1,0 +1,29 @@
+#!/bin/bash
+CFLAGS=" -Iinclude -c "
+#-Wall -fexceptions -g
+g++ $CFLAGS src/producerCustomer.cpp -o producerCustomer.o
+g++ $CFLAGS src/Message.cpp -o Message.o
+g++ $CFLAGS src/PriorityQueue.cpp -o PriorityQueue.o
+
+g++ $CFLAGS createMemory.cpp -o createMemory.o
+g++ $CFLAGS createSemaphores.cpp -o createSemaphores.o
+g++ $CFLAGS DeleteMemoryAndSemaphores.cpp -o DeleteMemoryAndSemaphores.o
+g++ $CFLAGS Producer.cpp -o Producer.o
+g++ $CFLAGS PriorityProducer.cpp -o PriorityProducer.o
+g++ $CFLAGS RandomPriorityProducer.cpp -o RandomPriorityProducer.o
+g++ $CFLAGS IntelligentPriorityProducer.cpp -o IntelligentPriorityProducer.o
+g++ $CFLAGS Customer.cpp -o Customer.o
+g++ $CFLAGS PrintQueue.cpp -o PrintQueue.o
+g++ $CFLAGS PrintAndDeleteIfFull.cpp -o PrintAndDeleteIfFull.o
+
+g++ -o createMemory createMemory.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o createSemaphores createSemaphores.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o DeleteMemoryAndSemaphores DeleteMemoryAndSemaphores.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o Producer Producer.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o PriorityProducer PriorityProducer.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o RandomPriorityProducer RandomPriorityProducer.o producerCustomer.o Message.o PriorityQueue.o 
+g++ -o IntelligentPriorityProducer IntelligentPriorityProducer.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o Customer Customer.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o PrintQueue PrintQueue.o producerCustomer.o Message.o PriorityQueue.o  
+g++ -o PrintAndDeleteIfFull PrintAndDeleteIfFull.o producerCustomer.o Message.o PriorityQueue.o  
+rm *.o

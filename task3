@@ -1,0 +1,29 @@
+#!/bin/bash
+chmod +x Producer
+chmod +x Customer
+chmod +x PrintQueue
+chmod +x DeleteMemoryAndSemaphores
+chmod +x createMemory
+chmod +x createSemaphores
+MEMKEY=`./createMemory`
+SEMKEY=`./createSemaphores`
+echo "$MEMKEY $SEMKEY"
+gnome-terminal -e "bash -c \"./PrintQueue $MEMKEY $SEMKEY 0 1000000; exec bash\"" 2>/dev/null
+gnome-terminal -e "bash -c \"./PrintQueue $MEMKEY $SEMKEY 1 1000000; exec bash\"" 2>/dev/null
+gnome-terminal -e "bash -c \"./PrintQueue $MEMKEY $SEMKEY 2 1000000; exec bash\"" 2>/dev/null
+sleep 0.5
+./Producer $MEMKEY $SEMKEY 0 2000000 0 & #'A'queue 2s
+./Producer $MEMKEY $SEMKEY 1 2000000 0 & #'B'queue 2s
+./Producer $MEMKEY $SEMKEY 2 2000000 0 & #'C'queue 2s
+./RandomPriorityProducer $MEMKEY $SEMKEY 10000000 0 & #Random priority
+./Customer $MEMKEY $SEMKEY 0 1000000 0 & #
+./Customer $MEMKEY $SEMKEY 0 1000000 0 & # A queue
+./Customer $MEMKEY $SEMKEY 0 1000000 0 & #
+./Customer $MEMKEY $SEMKEY 1 1000000 0 & #
+./Customer $MEMKEY $SEMKEY 1 1000000 0 & # B queue
+./Customer $MEMKEY $SEMKEY 1 1000000 0 & #
+./Customer $MEMKEY $SEMKEY 2 1000000 0 & #
+./Customer $MEMKEY $SEMKEY 2 1000000 0 & # C queue
+./Customer $MEMKEY $SEMKEY 2 1000000 0 & #
+sleep 90
+./DeleteMemoryAndSemaphores $MEMKEY $SEMKEY
